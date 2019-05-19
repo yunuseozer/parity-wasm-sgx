@@ -258,7 +258,12 @@ pub fn serialize<T: Serialize>(val: T) -> Result<Vec<u8>, T::Error> {
 /// Deserialize module from the file.
 #[cfg(feature = "std")]
 pub fn deserialize_file<P: AsRef<::std::path::Path>>(p: P) -> Result<Module, Error> {
+    #[cfg(not(feature = "mesalock_sgx"))]
 	let mut f = ::std::fs::File::open(p)
+		.map_err(|e| Error::HeapOther(format!("Can't read from the file: {:?}", e)))?;
+
+    #[cfg(feature = "mesalock_sgx")]
+	let mut f = ::std::untrusted::fs::File::open(p)
 		.map_err(|e| Error::HeapOther(format!("Can't read from the file: {:?}", e)))?;
 
 	Module::deserialize(&mut f)
@@ -267,7 +272,14 @@ pub fn deserialize_file<P: AsRef<::std::path::Path>>(p: P) -> Result<Module, Err
 /// Serialize module to the file
 #[cfg(feature = "std")]
 pub fn serialize_to_file<P: AsRef<::std::path::Path>>(p: P, module: Module) -> Result<(), Error> {
+    #[cfg(not(feature = "mesalock_sgx"))]
 	let mut io = ::std::fs::File::create(p)
+		.map_err(|e|
+			Error::HeapOther(format!("Can't create the file: {:?}", e))
+		)?;
+
+    #[cfg(feature = "mesalock_sgx")]
+	let mut io = ::std::untrusted::fs::File::create(p)
 		.map_err(|e|
 			Error::HeapOther(format!("Can't create the file: {:?}", e))
 		)?;

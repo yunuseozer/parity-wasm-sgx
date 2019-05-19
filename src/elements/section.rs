@@ -211,8 +211,32 @@ impl Serialize for Section {
 	}
 }
 
+#[cfg(not(feature = "mesalock_sgx"))]
 impl Section {
 	pub(crate) fn id(&self) -> u8 {
+		match *self {
+			Section::Custom(_) => 0x00,
+			Section::Unparsed { .. } => 0x00,
+			Section::Type(_) => 0x1,
+			Section::Import(_) => 0x2,
+			Section::Function(_) => 0x3,
+			Section::Table(_) => 0x4,
+			Section::Memory(_) => 0x5,
+			Section::Global(_) => 0x6,
+			Section::Export(_) => 0x7,
+			Section::Start(_) => 0x8,
+			Section::Element(_) => 0x9,
+			Section::Code(_) => 0x0a,
+			Section::Data(_) => 0x0b,
+			Section::Name(_) => 0x00,
+			Section::Reloc(_) => 0x00,
+		}
+	}
+}
+
+#[cfg(feature = "mesalock_sgx")]
+impl Section {
+	pub fn id(&self) -> u8 {
 		match *self {
 			Section::Custom(_) => 0x00,
 			Section::Unparsed { .. } => 0x00,

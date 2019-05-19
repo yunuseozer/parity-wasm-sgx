@@ -13,11 +13,13 @@ categories = ["wasm", "parser-implementations"]
 exclude = [ "res/*", "spec/*" ]
 
 [dependencies]
-byteorder = { version = "1.0", default-features = false }
+byteorder = { version = "1.0", default-features = false, git = "https://github.com/mesalock-linux/byteorder-sgx.git" }
+sgx_tstd = { git = "https://github.com/baidu/rust-sgx-sdk.git", optional = true }
 
 [dev-dependencies]
 time = "0.1"
 
 [features]
-default = ["std"]
-std = ["byteorder/std"]
+default = ["std", "mesalock_sgx"]
+mesalock_sgx = ["std", "sgx_tstd", "byteorder/mesalock_sgx", "byteorder/std"]
+std = []

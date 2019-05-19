@@ -14,9 +14,19 @@ use super::reloc_section::RelocSection;
 const WASM_MAGIC_NUMBER: [u8; 4] = [0x00, 0x61, 0x73, 0x6d];
 
 /// WebAssembly module
+
+#[cfg(not(feature = "mesalock_sgx"))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct Module {
 	magic: u32,
+	version: u32,
+	sections: Vec<Section>,
+}
+
+#[cfg(feature = "mesalock_sgx")]
+#[derive(Debug, Clone, PartialEq)]
+pub struct Module {
+	pub magic: u32,
 	version: u32,
 	sections: Vec<Section>,
 }

@@ -1125,7 +1125,6 @@ macro_rules! fmt_op {
 impl fmt::Display for Instruction {
 	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
 		use self::Instruction::*;
-		use super::BlockType;
 
 		match *self {
 			Unreachable => fmt_op!(f, "unreachable"),
