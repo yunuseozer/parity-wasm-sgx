@@ -10,7 +10,7 @@ documentation = "https://paritytech.github.io/parity-wasm/parity_wasm/"
 description = "WebAssembly binary format serialization/deserialization/interpreter"
 keywords = ["wasm", "webassembly", "bytecode", "serde", "interpreter"]
 categories = ["wasm", "parser-implementations"]
-exclude = [ "res/*", "spec/*" ]
+exclude = [ "res/*", "spec/*", "sgx/*" ]
 
 [dependencies]
 byteorder = { version = "1.0", default-features = false, git = "https://github.com/mesalock-linux/byteorder-sgx.git" }
