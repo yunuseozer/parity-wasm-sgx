@@ -68,3 +68,6 @@ stage = 6
 git = "https://github.com/baidu/rust-sgx-sdk.git"
 stage = 6
 
+
+[patch.crates-io]
+libc = { git = "https://github.com/mesalock-linux/libc-sgx" }
